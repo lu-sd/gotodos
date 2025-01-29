@@ -26,7 +26,14 @@ export default function TodoLists({ todos, onToggle, onDelete }: TodoListsProps)
               <label htmlFor="item">{todo.title}</label>
               <button
                 className="border-2 border-red-500 rounded border-spacing-3"
-                onClick={() => onDelete(todo.id)}
+                onClick={() => {
+                  if (
+                    window.confirm(
+                      'Are you sure you want to delete the task?',
+                    )
+                  ) onDelete(todo.id)
+                }
+                }
               >
                 Delete
               </button>
