@@ -1,26 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddTodo from "./addtodo";
 import TodoLists from "./todoLists";
-import { title } from "process";
 type todo = {
   id: string;
   title: string;
   completed: boolean;
 };
-const initValus = [
-  {
-    id: "0",
-    title: "learn git",
-    completed: true
-  },
-  {
-    id: "1",
-    title: "learn java",
-    completed: false
-  },
-]
 function App() {
-  const [todos, setTodos] = useState<todo[]>(initValus)
+  // const [todos, setTodos] = useState<todo[]>([])
+  const [todos, setTodos] = useState<todo[]>(() => {
+    // Load todos from localStorage on initial render
+    const savedTodos = localStorage.getItem("todos");
+    return savedTodos ? JSON.parse(savedTodos) : [];
+  })
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos))
+  }, [todos])
 
   const handleAddTodo = (newTodo: string) => {
     const newTodoItem = {

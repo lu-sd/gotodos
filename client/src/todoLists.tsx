@@ -12,7 +12,8 @@ interface TodoListsProps {
 }
 export default function TodoLists({ todos, onToggle, onDelete }: TodoListsProps) {
   return (
-    <div><h1 className="text-start text-xl m-5 font-bold ">To Do List</h1>
+    <div>
+      <h1 className="text-start text-xl m-5 font-bold ">To Do List</h1>
       <ul className=" flex flex-col pl-3">
         {todos.map((todo) => {
           return (
@@ -32,6 +33,7 @@ export default function TodoLists({ todos, onToggle, onDelete }: TodoListsProps)
             </li>
           );
         })}
-      </ul></div>
+      </ul>
+    </div>
   )
 }
