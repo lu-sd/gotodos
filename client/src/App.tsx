@@ -6,7 +6,7 @@ import TodoLists from "./todoLists";
 export type todo = {
   id: string;
   title: string;
-  completed: boolean;
+  done: boolean;
 };
 
 export const ENDPOINT = "http://localhost:3000";
@@ -16,7 +16,7 @@ const fetcher = (url: string) =>
 
 function App() {
   const [todos, setTodos] = useState<todo[]>([])
-  const { data } = useSWR<todo[]>("api/todos", fetcher)
+  const { data, mutate } = useSWR<todo[]>("api/todos", fetcher)
   // const [todos, setTodos] = useState<todo[]>(() => {
   // Load todos from localStorage on initial render
   //   const savedTodos = localStorage.getItem("todos");
@@ -31,20 +31,41 @@ function App() {
     const newTodoItem = {
       id: crypto.randomUUID(),
       title: newTodo,
-      completed: false
+      done: false
     };
     setTodos([...todos, newTodoItem]);
   };
 
-  function toggleTodo(id: string, completed: boolean) {
+  async function creatTodo(newTodo: string) {
+    const newTodoItem = await fetch(`${ENDPOINT}/api/todos`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        id: crypto.randomUUID(),
+        title: newTodo,
+        done: false
+      }),
+    }).then((r) => r.json());
+    mutate(newTodoItem)
+  }
+
+  function toggleTodo(id: string, done: boolean) {
     setTodos((todos) => {
       return todos.map((todo) => {
         if (todo.id === id) {
-          return { ...todo, completed };
+          return { ...todo, done };
         }
         return todo;
       });
     });
+  }
+  async function markTodoDone(id: string) {
+    const updated = await fetch(`${ENDPOINT}/api/todos/${id}/done`, {
+      method: "PATCH",
+    }).then((r) => r.json());
+    mutate(updated)
   }
 
   function deleteTodo(id: string) {
@@ -52,13 +73,17 @@ function App() {
       return todos.filter((todo) => todo.id !== id);
     });
   }
+  async function removeTodo(id: string) {
+    const updated = await fetch(`${ENDPOINT}/api/todos/${id}`, {
+      method: "DELETE",
+    }).then((r) => r.json());
+    mutate(updated)
+  }
 
   return (
     <div className="flex flex-col justify-center items-center space-y-8 mt-16">
-      {data?.map(d => <div>{d.id}</div>)}
-      <div>{JSON.stringify(data)}</div>
-      <AddTodo onAddTodo={handleAddTodo} />
-      <TodoLists todos={todos} onToggle={toggleTodo} onDelete={deleteTodo} />
+      <AddTodo onAddTodo={creatTodo} />
+      {data && <TodoLists todos={data} onToggle={markTodoDone} onDelete={removeTodo} />}
     </div>
   )
 }

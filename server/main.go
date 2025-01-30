@@ -7,9 +7,9 @@ import (
 )
 
 type Todo struct {
-	ID   string `json:"id"`
-	Done bool   `json:"done"`
-	Body string `json:"body"`
+	ID    string `json:"id"`
+	Done  bool   `json:"done"`
+	Title string `json:"title"`
 }
 
 func main() {
@@ -44,16 +44,33 @@ func main() {
 		todos = append(todos, *todo)
 		return c.JSON(todos)
 	})
+
 	app.Patch("/api/todos/:id/done", func(c *fiber.Ctx) error {
 		id := c.Params("id")
 
 		for i, t := range todos {
 			if t.ID == id {
-				todos[i].Done = true
+				todos[i].Done = !todos[i].Done
 				break
 			}
 		}
 		return c.JSON(todos)
 	})
+
+	app.Delete("/api/todos/:id", func(c *fiber.Ctx) error {
+		id := c.Params("id")
+
+		// Find the index of the todo to delete
+		for i, t := range todos {
+			if t.ID == id {
+				// Remove the todo from the slice
+				todos = append(todos[:i], todos[i+1:]...)
+				return c.JSON(todos)
+			}
+		}
+
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "Todo not found"})
+	})
+
 	app.Listen(":3000")
 }

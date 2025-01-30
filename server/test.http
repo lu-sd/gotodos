@@ -7,9 +7,13 @@ content-type: application/json
 
 {
     "done": false,
-    "body": "this is a test 4"
+    "title": "loving coding"
 
 }
 
 ###
-PATCH http://localhost:3000/api/todos/c4dd7c98-9920-44d0-848a-f9889be0a4a1/done HTTP/1.1
+PATCH http://localhost:3000/api/todos/3a9483c1-a198-46cb-888f-96460edc9332/done HTTP/1.1
+
+
+###
+DELETE  http://localhost:3000/api/todos/3a9483c1-a198-46cb-888f-96460edc933 HTTP/1.1

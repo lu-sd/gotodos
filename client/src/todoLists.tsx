@@ -1,7 +1,7 @@
 import { todo } from "./App";
 
 interface TodoListsProps {
-  onToggle: (id: string, completed: boolean) => void; // Function to notify parent
+  onToggle: (id: string) => void; // Function to notify parent
   onDelete: (id: string) => void; // Function to notify parent
   todos: todo[];
 }
@@ -15,8 +15,8 @@ export default function TodoLists({ todos, onToggle, onDelete }: TodoListsProps)
             <li className="flex gap-2 " key={todo.id}>
               <input
                 type="checkbox"
-                checked={todo.completed}
-                onChange={(e) => onToggle(todo.id, e.target.checked)}
+                checked={todo.done}
+                onChange={() => onToggle(todo.id)}
               />
               <label htmlFor="item">{todo.title}</label>
               <button
