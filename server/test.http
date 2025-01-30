@@ -1,0 +1,15 @@
+###
+GET http://localhost:3000 HTTP/1.1
+
+###
+POST http://localhost:3000/api/todos HTTP/1.1
+content-type: application/json
+
+{
+    "done": false,
+    "body": "this is a test 4"
+
+}
+
+###
+PATCH http://localhost:3000/api/todos/c4dd7c98-9920-44d0-848a-f9889be0a4a1/done HTTP/1.1
