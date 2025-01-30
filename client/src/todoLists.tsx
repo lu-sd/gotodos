@@ -1,9 +1,4 @@
-
-type todo = {
-  id: string;
-  title: string;
-  completed: boolean;
-};
+import { todo } from "./App";
 
 interface TodoListsProps {
   onToggle: (id: string, completed: boolean) => void; // Function to notify parent

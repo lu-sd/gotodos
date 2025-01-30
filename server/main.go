@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/google/uuid"
 )
 
@@ -13,12 +14,16 @@ type Todo struct {
 
 func main() {
 	app := fiber.New()
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "http://localhost:5173",
+		AllowHeaders: "Origin, Content-Type, Accept",
+	}))
 	todos := []Todo{}
 	// global State (todos list might not persist across multiple instances)
 	// If todos is a global slice, it will reset when the app restarts.
 	// Fix: Store the todos in a database (like SQLite, PostgreSQL, or Redis)
 
-	app.Get("/", func(c *fiber.Ctx) error {
+	app.Get("/api/todos", func(c *fiber.Ctx) error {
 		return c.JSON(todos)
 	})
 
