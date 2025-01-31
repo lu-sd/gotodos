@@ -19,6 +19,7 @@ export default function AddTodo({ onAddTodo }: AddTodoProps) {
         {/* <label htmlFor="todo">New Item</label> */}
         <input
           type="text"
+          id="todo"
           value={newItem}
           onChange={(e) => setNewItem(e.target.value)}
           className="border-2 border-sky-500  rounded-md bg-sky-200"

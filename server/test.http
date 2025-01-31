@@ -6,14 +6,12 @@ POST http://localhost:3000/api/todos HTTP/1.1
 content-type: application/json
 
 {
-    "done": false,
-    "title": "loving coding"
-
+    "title": "learn git"
 }
 
 ###
-PATCH http://localhost:3000/api/todos/3a9483c1-a198-46cb-888f-96460edc9332/done HTTP/1.1
+PATCH http://localhost:3000/api/todos/10/done HTTP/1.1
 
 
 ###
-DELETE  http://localhost:3000/api/todos/3a9483c1-a198-46cb-888f-96460edc933 HTTP/1.1
+DELETE  http://localhost:3000/api/todos/15 HTTP/1.1

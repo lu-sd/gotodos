@@ -3,7 +3,7 @@ import AddTodo from "./addtodo";
 import TodoLists from "./todoLists";
 
 export type todo = {
-  id: string;
+  id: number;
   title: string;
   done: boolean;
 };
@@ -16,7 +16,6 @@ const fetcher = (url: string) =>
 function App() {
   const { data, mutate } = useSWR<todo[]>("api/todos", fetcher)
   // mutate Allows you to update data manually without reloading the page.
-
   async function creatTodo(newTodo: string) {
     const newTodoItem = await fetch(`${ENDPOINT}/api/todos`, {
       method: "POST",
@@ -24,26 +23,39 @@ function App() {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        id: crypto.randomUUID(),
         title: newTodo,
         done: false
       }),
     }).then((r) => r.json());
-    mutate(newTodoItem)
+    if (data) {
+      mutate([...data, newTodoItem])
+    } else {
+      mutate([newTodoItem])
+    }
   }
 
-  async function markTodoDone(id: string) {
+  async function markTodoDone(id: number) {
     const updated = await fetch(`${ENDPOINT}/api/todos/${id}/done`, {
       method: "PATCH",
     }).then((r) => r.json());
-    mutate(updated)
+    if (data) {
+      mutate(data.map(d => {
+        if (d.id === updated.id) {
+          return { ...d, done: updated.done }
+        } else {
+          return d
+        }
+      }))
+    } else {
+      mutate([updated])
+    }
   }
 
-  async function removeTodo(id: string) {
-    const updated = await fetch(`${ENDPOINT}/api/todos/${id}`, {
+  async function removeTodo(id: number) {
+    const deleted = await fetch(`${ENDPOINT}/api/todos/${id}`, {
       method: "DELETE",
     }).then((r) => r.json());
-    mutate(updated)
+    mutate(data?.filter(d => d.id != deleted.id))
   }
 
   return (
