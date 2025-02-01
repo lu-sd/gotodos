@@ -6,12 +6,12 @@ POST http://localhost:3000/api/todos HTTP/1.1
 content-type: application/json
 
 {
-    "title": "learn git"
+    "title": "learn java"
 }
 
 ###
-PATCH http://localhost:3000/api/todos/10/done HTTP/1.1
+PATCH http://localhost:3000/api/todos/37/done HTTP/1.1
 
 
 ###
-DELETE  http://localhost:3000/api/todos/15 HTTP/1.1
+DELETE  http://localhost:3000/api/todos/37 HTTP/1.1

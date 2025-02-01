@@ -1,0 +1,10 @@
+-- migrate:up
+CREATE TABLE IF NOT EXISTS todos2 (
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		title TEXT NOT NULL,
+		done BOOLEAN NOT NULL DEFAULT 0
+	);
+
+-- migrate:down
+
+DROP TABLE todos2;
