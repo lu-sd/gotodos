@@ -18,3 +18,13 @@ SQLC – Generates Go code from SQL queries, enabling type safety and reducing b
 Dbmate – A database migration tool used to manage schema changes.
 Database:
 SQLite – A lightweight, file-based relational database.
+
+### Features
+
+✅ Add new tasks
+✅ Mark tasks as completed
+✅ Delete tasks
+✅ View all tasks
+✅ Persistent storage using SQLite
+✅ Type-safe queries with SQLC
+✅ Database migrations with Dbmate
