@@ -28,3 +28,4 @@ SQLite – A lightweight, file-based relational database.
 ✅ Persistent storage using SQLite
 ✅ Type-safe queries with SQLC
 ✅ Database migrations with Dbmate
+✅ Use docker
