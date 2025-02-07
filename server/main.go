@@ -23,8 +23,10 @@ func main() {
 	queries := query.New(db)
 
 	app := fiber.New()
+	distPath := "../client/dist/"
+	app.Static("/", distPath)
 	app.Use(cors.New(cors.Config{
-		AllowOrigins: "http://localhost:5173",
+		AllowOrigins: "http://localhost:3000",
 		AllowHeaders: "Origin, Content-Type, Accept",
 	}))
 
@@ -69,7 +71,6 @@ func main() {
 		if err != nil {
 			return c.Status(400).JSON(fiber.Map{"error": "Invalid ID"})
 		}
-
 		// Get the current todo
 		todo, err := queries.GetTodoByID(c.Context(), id)
 		if err != nil {
